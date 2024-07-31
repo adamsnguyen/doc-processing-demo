@@ -25,7 +25,7 @@ def main():
             data = {
                 "file": encoded_file,
                 "placeholders": {
-                    "client": client,
+                    "client": Client,
                     "amount": amount
                 }
             }
