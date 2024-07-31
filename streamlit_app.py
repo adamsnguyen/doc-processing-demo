@@ -30,9 +30,16 @@ def main():
                 }
             }
 
+            # Get API key from Streamlit secrets
+            api_key = st.secrets["API_KEY"]
+
             # Send request to API Gateway
             api_url = "https://your-api-gateway-url/prod/process_document"
-            response = requests.post(api_url, json=data)
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}"
+            }
+            response = requests.post(api_url, json=data, headers=headers)
 
             if response.status_code == 200:
                 # Decode and save the processed document
