@@ -52,6 +52,7 @@ def main():
                 )
             else:
                 st.error("Error processing document")
+                print(response)
 
 if __name__ == "__main__":
     main()
