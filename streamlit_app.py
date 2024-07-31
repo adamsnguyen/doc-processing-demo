@@ -44,17 +44,28 @@ def main():
                     "Content-Type": "application/json",
                     "x-api-key": api_key
                 }
+                
+                st.write("Sending request with headers:", headers)
+                st.write("To URL:", api_url)
+
                 response = requests.post(api_url, json=data, headers=headers)
+                
+                st.write("Response status code:", response.status_code)
+                st.write("Response headers:", dict(response.headers))
 
                 if response.status_code == 200:
-                    # Decode and save the processed document
-                    processed_doc = base64.b64decode(response.json()['body'])
-                    st.download_button(
-                        label="Download Processed Document",
-                        data=processed_doc,
-                        file_name="processed_document.docx",
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    )
+                    response_data = response.json()
+                    if 'processed_document' in response_data:
+                        processed_doc = base64.b64decode(response_data['processed_document'])
+                        st.download_button(
+                            label="Download Processed Document",
+                            data=processed_doc,
+                            file_name="processed_document.docx",
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        )
+                    else:
+                        st.error("Processed document not found in the response")
+                        st.write("Debug info:", response_data)
                 else:
                     error_message = f"Error processing document: Status code {response.status_code}"
                     st.error(error_message)
