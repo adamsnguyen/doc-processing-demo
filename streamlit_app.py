@@ -57,22 +57,26 @@ def main():
 
                 if response.status_code == 200:
                     response_data = response.json()
-                    if 'processed_document' in response_data:
-                        processed_doc = base64.b64decode(response_data['processed_document'])
-                        st.download_button(
-                            label="Download Processed Document",
-                            data=processed_doc,
-                            file_name="processed_document.docx",
-                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        )
+                    if 'body' in response_data:
+                        try:
+                            body_content = json.loads(response_data['body'])
+                            if 'processed_document' in body_content:
+                                processed_doc = base64.b64decode(body_content['processed_document'])
+                                st.download_button(
+                                    label="Download Processed Document",
+                                    data=processed_doc,
+                                    file_name="processed_document.docx",
+                                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                )
+                            else:
+                                st.error("Processed document not found in the response body")
+                                st.write("Debug info:", body_content)
+                        except json.JSONDecodeError:
+                            st.error("Error decoding JSON in response body")
+                            st.write("Debug info:", response_data['body'])
                     else:
-                        st.error("Processed document not found in the response")
+                        st.error("Body not found in the response")
                         st.write("Debug info:", response_data)
-                else:
-                    error_message = f"Error processing document: Status code {response.status_code}"
-                    st.error(error_message)
-                    logging.error(f"{error_message} - Response: {response.text}")
-                    st.write("Debug info:", response.text)
 
             except requests.RequestException as e:
                 error_message = f"Network error occurred: {str(e)}"
