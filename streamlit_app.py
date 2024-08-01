@@ -28,11 +28,13 @@ def main():
 
                 # Prepare data for API
                 data = {
-                    "file": encoded_file,
-                    "placeholders": {
-                        "client": client,
-                        "amount": amount
-                    }
+                    "body": json.dumps({
+                        "file": encoded_file,
+                        "placeholders": {
+                            "client": client,
+                            "amount": amount
+                        }
+                    })
                 }
 
                 # Get API key from Streamlit secrets
