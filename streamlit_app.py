@@ -3,6 +3,8 @@ import requests
 import json
 import base64
 import logging
+import datetime
+from num2words import num2words
 
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
@@ -15,7 +17,14 @@ def main():
 
     # Form inputs
     client = st.text_input("Client Name")
-    amount = st.text_input("Amount")
+    date = st.date_input("Date: ", datetime.date.today())
+    notice_period = st.slider("Select number of days:", 
+                 min_value=0, 
+                 max_value=365, 
+                 value=60, 
+                 step=1)
+    notice_period_text = num2words(notice_period)
+    notice_period_string = f"{notice_period_text} ({notice_period})"
 
     if st.button("Process Document"):
         if uploaded_file is not None:
@@ -31,8 +40,9 @@ def main():
                     "body": json.dumps({
                         "file": encoded_file,
                         "placeholders": {
-                            "client": client,
-                            "amount": amount
+                            f"{{{{NAME}}}}": client,
+                            f"{{{{DATE}}}}": date,
+                            f"{{{{NOTICE_PERIOD}}}}": notice_period_string
                         }
                     })
                 }
@@ -65,7 +75,7 @@ def main():
                                 st.download_button(
                                     label="Download Processed Document",
                                     data=processed_doc,
-                                    file_name="processed_document.docx",
+                                    file_name=f"{client}_processed_document.docx",
                                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                 )
                             else:
