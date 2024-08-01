@@ -60,7 +60,7 @@ def main():
                 api_key = st.secrets["API_KEY"]
 
                 # Send request to API Gateway
-                api_url = "https://iv7g55y423.execute-api.us-east-2.amazonaws.com/test/process-doc-replace"
+                api_url = st.secrets["API_URL"] 
                 headers = {
                     "Content-Type": "application/json",
                     "x-api-key": api_key
