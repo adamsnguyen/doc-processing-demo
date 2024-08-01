@@ -10,7 +10,7 @@ from num2words import num2words
 logging.basicConfig(level=logging.ERROR)
 
 def main():
-    st.title("Document Processor")
+    st.title("Songhees Document Automation Demo")
 
     # File uploader
     uploaded_file = st.file_uploader("Choose a Word document", type="docx")
