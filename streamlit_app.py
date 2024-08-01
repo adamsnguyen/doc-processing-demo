@@ -9,7 +9,7 @@ from num2words import num2words
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
 
-st.config.set_option("server.maxUploadSize", 0.1)
+st.config.set_option("server.maxUploadSize", 1)
 
 def main():
     st.title("Songhees Document Automation Demo")
