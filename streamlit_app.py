@@ -36,13 +36,18 @@ def main():
                 encoded_file = base64.b64encode(file_contents).decode()
 
                 # Prepare data for API
+                if isinstance(date, datetime.date):
+                    date_str = date.isoformat()
+                else:
+                    date_str = str(date)
+
                 data = {
                     "body": json.dumps({
-                        "file": encoded_file,
+                        "file": encoded_file_str,
                         "placeholders": {
-                            f"{{{{NAME}}}}": client,
-                            f"{{{{DATE}}}}": date,
-                            f"{{{{NOTICE_PERIOD}}}}": notice_period_string
+                            "{{NAME}}": client,
+                            "{{DATE}}": date_str,
+                            "{{NOTICE_PERIOD}}": str(notice_period_string)
                         }
                     })
                 }
