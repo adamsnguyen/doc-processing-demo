@@ -43,7 +43,7 @@ def main():
 
                 data = {
                     "body": json.dumps({
-                        "file": encoded_file_str,
+                        "file": encoded_file,
                         "placeholders": {
                             "{{NAME}}": client,
                             "{{DATE}}": date_str,
