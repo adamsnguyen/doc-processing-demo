@@ -18,7 +18,7 @@ def main():
     # Form inputs
     client = st.text_input("Client Name")
     date = st.date_input("Date: ", datetime.date.today())
-    notice_period = st.slider("Select number of days:", 
+    notice_period = st.slider("Notice Period (days):", 
                  min_value=0, 
                  max_value=365, 
                  value=60, 
@@ -64,13 +64,13 @@ def main():
                     "x-api-key": api_key
                 }
                 
-                st.write("Sending request with headers:", headers)
-                st.write("To URL:", api_url)
+                #st.write("Sending request with headers:", headers)
+               # st.write("To URL:", api_url)
 
                 response = requests.post(api_url, json=data, headers=headers)
                 
-                st.write("Response status code:", response.status_code)
-                st.write("Response headers:", dict(response.headers))
+                #st.write("Response status code:", response.status_code)
+                #st.write("Response headers:", dict(response.headers))
 
                 if response.status_code == 200:
                     response_data = response.json()
@@ -82,7 +82,7 @@ def main():
                                 st.download_button(
                                     label="Download Processed Document",
                                     data=processed_doc,
-                                    file_name=f"{client}_processed_document.docx",
+                                    file_name=f"{client}_{date}.docx",
                                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                 )
                             else:
