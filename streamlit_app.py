@@ -52,7 +52,7 @@ def main():
                     })
                 }
 
-                st.json(data)
+                # st.json(data)
 
                 # Get API key from Streamlit secrets
                 api_key = st.secrets["API_KEY"]
